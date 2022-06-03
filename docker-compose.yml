@@ -1,10 +1,9 @@
-version: "3"
-
+version: "3.9"
 services:
     postgres:
         container_name: postgres
         restart: always
-        build: ./postgres
+        image: postgres
         env_file:
             - .env
         environment:
@@ -13,7 +12,8 @@ services:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         ports:
             - "5432:5432"
-
+        volumes:
+          - postgres_data:/var/lib/postgresql/data/
     web:
         container_name: blog
         restart: always
@@ -34,7 +34,8 @@ services:
             - postgres:postgres
         depends_on:
             - postgres
-            
+        command:
+            - sh -c 'chmod +x /blog/migrate.sh && sh /blog/migrate.sh && /app/entrypoint.sh'
     nginx:
         container_name: nginx
         restart: always
@@ -50,7 +51,6 @@ services:
             - web:web
         depends_on:
             - web
-    
-
 volumes:
     static_volume:
+    postgres_data:

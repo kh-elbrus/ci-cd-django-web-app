@@ -18,8 +18,6 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
 
 RUN pip install --upgrade pip
 
-RUN pip install "gunicorn==20.0.4"
-
 COPY requirements.txt /
 
 RUN pip install -r /requirements.txt
@@ -30,14 +28,12 @@ RUN chown wagtail:wagtail /blog
 
 COPY --chown=wagtail:wagtail . .
 
-RUN mkdir -p /vol/web/media
-
-RUN mkdir -p /vol/web/static
-
-RUN chown -R wagtail:wagtail /vol/
-
-RUN chmod -R 755 /vol/web
+RUN mkdir -p /vol/web/media && \ 
+    mkdir -p /vol/web/static && \
+    chown -R wagtail:wagtail /vol/ && \ 
+    chmod -R 755 /vol/web && \ 
+    chmod +x ./startup.sh
 
 USER wagtail
 
-ENTRYPOINT [ "bash", "startup.sh" ]
+CMD [ "entypoint.sh" ]
