@@ -1,0 +1,24 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: |
+        export IMG_VERSION=$(git log -1 --pretty=%h)
+        docker-compose build
+    
+    - name: Test django application
+      run: |
+        docker exec -i blog python manage.py test
