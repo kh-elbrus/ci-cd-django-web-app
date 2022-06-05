@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  Build-Test-Web-Application:
 
     runs-on: ubuntu-latest
     env:
@@ -40,5 +40,5 @@ jobs:
     
     - name: Test django application
       run: |
-        sleep 10
+        sleep 60
         docker exec -i blog python manage.py test
