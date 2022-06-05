@@ -34,8 +34,9 @@ services:
             - postgres:postgres
         depends_on:
             - postgres
-        command:
-            - sh -c 'chmod +x /blog/migrate.sh && sh /blog/migrate.sh && /app/entrypoint.sh'
+        command: >
+            sh -c "bash ./migrate.sh && 
+                   bash ./entrypoint.sh"
     nginx:
         container_name: nginx
         restart: always
