@@ -3,6 +3,11 @@
 # Django Web Application
 
 🛩 Building CI/CD process from scratch for Django base web application 
+  
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![GitHub issues](https://badgen.net/github/issues/Naereen/Strapdown.js/)](https://github.com/kh-elbrus/ci-cd-django-web-app/issues)
+[![GitHub branches](https://badgen.net/github/branches/Naereen/Strapdown.js)](https://github.com/kh-elbrus/ci-cd-django-web-app/branches/all)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/Naereen/StrapDown.js.svg)](https://github.com/kh-elbrus/ci-cd-django-web-app/pulls)
 
 [![Secure Code Analysis](https://github.com/kh-elbrus/ci-cd-django-web-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/kh-elbrus/ci-cd-django-web-app/actions/workflows/codeql.yml)
   
