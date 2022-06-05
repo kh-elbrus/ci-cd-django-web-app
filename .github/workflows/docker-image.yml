@@ -40,4 +40,5 @@ jobs:
     
     - name: Test django application
       run: |
+        sleep 10
         docker exec -i blog python manage.py test
