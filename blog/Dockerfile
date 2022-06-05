@@ -32,8 +32,8 @@ RUN mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
     chown -R wagtail:wagtail /vol/ && \ 
     chmod -R 755 /vol/web && \ 
-    chmod +x ./entypoint.sh
+    chmod +x ./entrypoint.sh
 
 USER wagtail
 
-CMD [ "entypoint.sh" ]
+CMD [ "entrypoint.sh" ]
