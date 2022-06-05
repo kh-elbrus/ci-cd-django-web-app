@@ -40,5 +40,9 @@ jobs:
     
     - name: Test django application
       run: |
-        sleep 60
-        docker exec -i blog python manage.py test
+        docker exec -i blog python manage.py test &
+        while kill -0 $! > /dev/null 2>&1; 
+        do
+          free -m
+          sleep 6
+        done
