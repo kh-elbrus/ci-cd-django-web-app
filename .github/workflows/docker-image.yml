@@ -22,11 +22,10 @@ jobs:
         echo $DOT_ENV_FILE | base64 --decode > .env
         docker-compose -f docker-compose-dev.yml build
     
-    - name: Run docker containers
-      run: docker-compose -f docker-compose-dev.yml up -d
+    - name: Run & test docker containers
+      run: |
+        docker-compose -f docker-compose-dev.yml up -d
+        docker exec -i blog python manage.py test
       
     - name: Check running docker containers
       run: docker ps 
-      
-    - name: Run django tests
-      run: docker exec -i blog python manage.py test
