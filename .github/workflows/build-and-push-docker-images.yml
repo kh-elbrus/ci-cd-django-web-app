@@ -6,6 +6,9 @@ on:
       - "Test Postgresql & Django App"
     types:
       - "completed"
+  push:
+    branches:
+      - master
 
 jobs:
 
@@ -16,10 +19,24 @@ jobs:
       DOT_ENV_FILE: ${{ secrets.DOT_ENV_FILE }}
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image  
-      run: |
-        export IMG_VERSION=$(git log -1 --pretty=%h)
-        echo $DOT_ENV_FILE | base64 --decode > .env
-        docker-compose -f docker-compose-dev.yml build
+      - name: send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            **Github actions workflow:** ${{ github.workflow }}
+            
+            ${{ github.actor }} created commit:
+            **Commit message:** ${{ github.event.commits[0].message }}
+            
+            **Repository:** ${{ github.repository }} 
+
+            See more: https://github.com/${{ github.repository }}/actions/workflows/build-and-push-docker-images.yml
+      - uses: actions/checkout@v3
+      - name: Build the Docker image  
+        run: |
+          export IMG_VERSION=$(git log -1 --pretty=%h)
+          echo $DOT_ENV_FILE | base64 --decode > .env
+          docker-compose -f docker-compose-dev.yml build
     

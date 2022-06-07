@@ -1,12 +1,14 @@
 name: "Security code analysis"
 
 on:
+  workflow_run:
+    workflows:
+      - "Test Postgresql & Django App"
+    types:
+      - "completed"
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    - cron: '0 * * * *'
+    branches:
+      - master
 
 jobs:
   analyze:
@@ -23,16 +25,30 @@ jobs:
         language: [ 'python' ]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            **Github actions workflow:** ${{ github.workflow }}
+            
+            ${{ github.actor }} created commit:
+            **Commit message:** ${{ github.event.commits[0].message }}
+            
+            **Repository:** ${{ github.repository }} 
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+            See more: https://github.com/${{ github.repository }}/actions/workflows/codeql.yml
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
