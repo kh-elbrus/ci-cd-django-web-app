@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOT_ENV_FILE: ${{ secrets.DOT_ENV_FILE }}
+      REGISTRY: ${{ secrets.REGISTRY }}
+      IMAGE_NAME: ${{ github.repository }}
 
     steps:
       - name: send telegram message
@@ -47,8 +49,8 @@ jobs:
           export IMG_VERSION=$(git log -1 --pretty=%h)
           echo $DOT_ENV_FILE | base64 --decode > .env
     
-      - name: Build & Publish to Github packages
-        uses: pennsignals/publish_docker-compose@v0.1.0
-        with:
-          docker_compose: 'docker-compose-dev.yml'
-          repo_token: "${{ secrets.TOKEN }}"
+      - name: Build images
+        run: docker-compose -f docker-compose-dev.yml build
+
+      - name: Push images to ghcr.io 
+        run: docker-compose -f docker-compose-dev.yml push

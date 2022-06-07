@@ -3,7 +3,8 @@ services:
     postgres:
         container_name: postgres
         restart: always
-        image: postgres
+        build: ./postgresql
+        image: ghcr.io/kh-elbrus/ci-cd-django-web-app/postgres
         labels:
             - name=postgres
         env_file:
@@ -20,7 +21,7 @@ services:
         container_name: blog
         restart: always
         build: ./blog
-        image: kh-elbrus/blog
+        image: ghcr.io/kh-elbrus/ci-cd-django-web-app/blog
         expose:
             - "8000"
         volumes:
@@ -44,7 +45,7 @@ services:
         container_name: nginx
         restart: always
         build: ./nginx
-        image: kh-elbrus/nginx
+        image: ghcr.io/kh-elbrus/ci-cd-django-web-app/nginx
         ports:
             - "80:80"
             - "443:443"
