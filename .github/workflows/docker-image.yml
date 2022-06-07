@@ -41,4 +41,4 @@ jobs:
       run: docker ps 
       
     - name: Run django tests
-      run: docker-compose -f docker-compose-test.yml run blog python manage.py test
+      run: docker run blog python manage.py test
