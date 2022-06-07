@@ -1,4 +1,4 @@
-name: Build & Test
+name: Build & Push 
 
 on:
   push:
@@ -22,12 +22,3 @@ jobs:
         echo $DOT_ENV_FILE | base64 --decode > .env
         docker-compose -f docker-compose-dev.yml build
     
-    - name: Run & test docker containers
-      run: |
-        docker-compose -f docker-compose-dev.yml up
-      
-    - name: Check running docker containers
-      run: docker ps 
-      
-    - name: Run tests
-      run: docker exec -i blog python manage.py test
