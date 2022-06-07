@@ -1,8 +1,10 @@
-name: Test Postgresql & Django App 
+name: Test Postgresql & Django App
 
 on:
-  workflow_call:
-  workflow_dispatch:
+  push:
+    branches: [ "development", "master" ]
+  pull_request:
+    branches: [ "development", "master" ]
 
 jobs:
   django_test:
@@ -37,6 +39,20 @@ jobs:
       matrix:
         python-version: [3.9]
     steps:
+      - name: send telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Github actions workflow: Test Postgresql & Django App
+            
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }} 
+
+            See more: https://github.com/${{ github.repository }}/actions/workflows/test-django-app.yml
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
