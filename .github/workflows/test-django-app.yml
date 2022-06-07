@@ -45,12 +45,11 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            **Github actions workflow:** ${{ github.workflow }}
+            ⚡ Github actions workflow: ${{ github.workflow }}
             
-            ${{ github.actor }} created commit:
-            **Commit message:** ${{ github.event.commits[0].message }}
+            🤷‍♂️ ${{ github.actor }} created commit: ${{ github.event.commits[0].message }}
             
-            **Repository:** ${{ github.repository }} 
+            🎯 Repository: ${{ github.repository }} 
 
             See more: https://github.com/${{ github.repository }}/actions/workflows/test-django-app.yml
       - uses: actions/checkout@v2
