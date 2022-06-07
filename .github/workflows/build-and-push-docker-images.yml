@@ -26,15 +26,29 @@ jobs:
           message: |
             ⚡ Github actions workflow: ${{ github.workflow }}
             
-            🤷‍♂️ ${{ github.actor }} created commit: ${{ github.event.commits[0].message }}
+            🤷‍♂️ ${{ github.actor }} triggered process!
             
             🎯 Repository: ${{ github.repository }} 
 
             See more: https://github.com/${{ github.repository }}/actions/workflows/build-and-push-docker-images.yml
-      - uses: actions/checkout@v3
-      - name: Build the Docker image  
+      
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ secrets.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.TOKEN }}
+      
+      - name: Setup dot env file 
         run: |
           export IMG_VERSION=$(git log -1 --pretty=%h)
           echo $DOT_ENV_FILE | base64 --decode > .env
-          docker-compose -f docker-compose-dev.yml build
     
+      - name: Build & Publish to Github packages
+        uses: pennsignals/publish_docker-compose@v0.1.0
+        with:
+          docker_compose: 'docker-compose-dev.yml'
+          repo_token: "${{ secrets.TOKEN }}"

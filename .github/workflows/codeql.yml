@@ -32,7 +32,7 @@ jobs:
           message: |
             ⚡ Github actions workflow: ${{ github.workflow }}
             
-            🤷‍♂️ ${{ github.actor }} created commit: ${{ github.event.commits[0].message }}
+            🤷‍♂️ ${{ github.actor }} triggered process!
             
             🎯 Repository: ${{ github.repository }} 
 
