@@ -24,8 +24,10 @@ jobs:
     
     - name: Run & test docker containers
       run: |
-        docker-compose -f docker-compose-dev.yml up -d
-        docker exec -i blog python manage.py test
+        docker-compose -f docker-compose-dev.yml up
       
     - name: Check running docker containers
       run: docker ps 
+      
+    - name: Run tests
+      run: docker exec -i blog python manage.py test
