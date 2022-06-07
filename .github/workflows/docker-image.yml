@@ -11,30 +11,45 @@ jobs:
   Build-Test-Web-Application:
 
     runs-on: ubuntu-latest
-    env:
-      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-      DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-      POSTGRES_READY: ${{ secrets.POSTGRES_READY }}
-      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      DB_SERVICE: ${{ secrets.DB_SERVICE }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      DEBUG: ${{ secrets.DEBUG }}
-      TEMPLATE_DEBUG: ${{ secrets.TEMPLATE_DEBUG }}
-      THEME_VERSION: ${{ secrets.THEME_VERSION }}
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      env:
+        DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+        DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+        DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+        POSTGRES_READY: ${{ secrets.POSTGRES_READY }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        DB_SERVICE: ${{ secrets.DB_SERVICE }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DEBUG: ${{ secrets.DEBUG }}
+        TEMPLATE_DEBUG: ${{ secrets.TEMPLATE_DEBUG }}
+        THEME_VERSION: ${{ secrets.THEME_VERSION }}      
       run: |
         export IMG_VERSION=$(git log -1 --pretty=%h)
         docker-compose -f docker-compose-test.yml build
     
     - name: Run docker containers
+      env:
+        DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+        DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+        DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+        DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+        POSTGRES_READY: ${{ secrets.POSTGRES_READY }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        DB_SERVICE: ${{ secrets.DB_SERVICE }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DEBUG: ${{ secrets.DEBUG }}
+        TEMPLATE_DEBUG: ${{ secrets.TEMPLATE_DEBUG }}
+        THEME_VERSION: ${{ secrets.THEME_VERSION }}
       run: docker-compose -f docker-compose-test.yml up -d
     
     - name: Sleep 45s 
