@@ -39,10 +39,4 @@ jobs:
         docker-compose -f docker-compose-test.yml up -d
     
     - name: Test django application
-      run: |
-        docker exec -i blog python manage.py test &
-        while kill -0 $! > /dev/null 2>&1; 
-        do
-          free -m
-          sleep 6
-        done
+      run: docker exec -it blog python manage.py test
