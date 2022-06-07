@@ -1,5 +1,5 @@
 FROM nginx
-LABEL name="Nginx"
+LABEL name="nginx"
 RUN mkdir /etc/nginx/ssl
 RUN chmod 700 /etc/nginx/ssl
 COPY ./certs/blog.crt /etc/nginx/ssl/blog.crt

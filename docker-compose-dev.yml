@@ -4,6 +4,8 @@ services:
         container_name: postgres
         restart: always
         image: postgres
+        labels:
+            - name=postgres
         env_file:
             - .env
         environment:

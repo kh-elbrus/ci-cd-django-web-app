@@ -2,7 +2,7 @@ FROM python:3.8.1-slim-buster
 
 RUN useradd wagtail
 
-LABEL name="Blog"
+LABEL name="blog"
 
 EXPOSE 8000
 
