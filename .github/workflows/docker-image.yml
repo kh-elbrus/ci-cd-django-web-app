@@ -12,41 +12,14 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      DJANGO_SUPERUSER_EMAIL: ${{ secrets.DJANGO_SUPERUSER_EMAIL }}
-      DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
-      DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-      POSTGRES_READY: ${{ secrets.POSTGRES_READY }}
-      POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      DB_SERVICE: ${{ secrets.DB_SERVICE }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      DEBUG: ${{ secrets.DEBUG }}
-      TEMPLATE_DEBUG: ${{ secrets.TEMPLATE_DEBUG }}
-      THEME_VERSION: ${{ secrets.THEME_VERSION }}
+      DOT_ENV_FILE: ${{ secrets.DOT_ENV_FILE }}
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image  
       run: |
         export IMG_VERSION=$(git log -1 --pretty=%h)
-        touch .env
-        echo DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
-        echo DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }} >> .env
-        echo DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }} >> .env
-        echo DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} >> .env
-        echo POSTGRES_READY=${{ secrets.POSTGRES_READY }} >> .env
-        echo POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} >> .env
-        echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
-        echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-        echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-        echo DB_SERVICE=${{ secrets.DB_SERVICE }} >> .env
-        echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-        echo DEBUG=${{ secrets.DEBUG }} >> .env
-        echo TEMPLATE_DEBUG=${{ secrets.TEMPLATE_DEBUG }} >> .env
-        echo THEME_VERSION=${{ secrets.THEME_VERSION }} >> .env
+        echo $DOT_ENV_FILE | base64 --decode > .env
         docker-compose -f docker-compose-dev.yml build
     
     - name: Run docker containers
