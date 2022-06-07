@@ -50,6 +50,5 @@ jobs:
       - name: Build & Publish to Github packages
         uses: pennsignals/publish_docker-compose@v0.1.0
         with:
-          version: 'latest'
           docker_compose: 'docker-compose-dev.yml'
           repo_token: "${{ secrets.TOKEN }}"
