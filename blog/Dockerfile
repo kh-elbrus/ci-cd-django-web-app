@@ -2,6 +2,8 @@ FROM python:3.8.1-slim-buster
 
 RUN useradd wagtail
 
+LABEL name="Blog"
+
 EXPOSE 8000
 
 ENV PYTHONUNBUFFERED=1 \
