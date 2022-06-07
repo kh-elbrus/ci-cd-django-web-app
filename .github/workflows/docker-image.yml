@@ -40,5 +40,5 @@ jobs:
     - name: Check running docker containers
       run: docker ps 
       
-    - name: Check builded images
-      run: docker image ls
+    - name: Run django tests
+      run: docker exec -t blog python manage.py test
